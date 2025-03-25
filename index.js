@@ -79,6 +79,9 @@ function displayCurrentQuestion() {
   const button = document.createElement('button');
   button.textContent = option;
   button.addEventListener('click', () => {
+    if (button.textContent === currentQuestion.answer) {
+      correctAnswers++
+    }
   clearInterval(timerIntervalId);
   displayNextQuestion();
   });
@@ -126,30 +129,30 @@ function displayNextQuestion() {
 
 //Start the quiz game when hitting the start quiz button//
 document.getElementById('start-quiz').addEventListener('click', () => {
-    quizDiv.innerHTML = ''; //Clear the previous score and start quiz button//
-    currentQuestionIndex = 0;
-    correctAnswers = 0;
-    displayCurrentQuestion();
-    startTimer(); 
+  quizDiv.innerHTML = ''; //Clear the previous score and start quiz button//
+  currentQuestionIndex = 0;
+  correctAnswers = 0;
+  displayCurrentQuestion();
+  startTimer(); 
 });    
 
 //Calculate and display the score//
 function displayScore() {
-    const score = Math.round((correctAnswers / questionsArr.length) * 100);
-    const scoreElement = document.createElement('p');
-    quizDiv.appendChild(scoreElement);
-    localStorage.setItem('previous-score', score);
-    return scoreElement;
+  const score = Math.round((correctAnswers / questionsArr.length) * 100);
+  const scoreElement = document.createElement('p');
+  scoreElement.textContent = score + "%";
+  quizDiv.appendChild(scoreElement);
+  localStorage.setItem('previous-score', score);
+  return scoreElement;
 }
 
 //Retrieve the previous score from localStorage//
-window.addEventListener('load', () => {
-    const previousScore = localStorage.getItem('previous-score');
-    if (previousScore) {
-    const scoreElement = document.createElement('p');
-    quizDiv.appendChild(scoreElement);
-    }
-});
+const previousScore = localStorage.getItem('previous-score');
+if (previousScore) {
+  const scoreElement = document.createElement('p');
+  scoreElement.textContent = previousScore + "%";
+  quizDiv.appendChild(scoreElement);
+}
     
 
 
